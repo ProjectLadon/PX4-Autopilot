@@ -166,7 +166,7 @@ private:
 	bool hasMovedFromCurrentHomeLocation();
 	bool set_home_position();
 	bool set_home_position_alt_only();
-	bool set_in_air_home_position();
+	void set_in_air_home_position();
 	void fillLocalHomePos(home_position_s &home, const vehicle_local_position_s &lpos) const;
 	void fillLocalHomePos(home_position_s &home, float x, float y, float z, float heading) const;
 	void fillGlobalHomePos(home_position_s &home, const vehicle_global_position_s &gpos) const;
