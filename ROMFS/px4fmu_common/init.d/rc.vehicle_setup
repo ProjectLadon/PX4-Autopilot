@@ -33,6 +33,23 @@ then
 fi
 
 #
+# Sailing vessel setup.
+#
+if [ $VEHICLE_TYPE = sail ]
+then
+	if [ $MIXER = none ]
+	then
+		echo "sail mixer undefined"
+	fi
+
+	# Load mixer and configure outputs.
+	. ${R}etc/init.d/rc.interface
+
+	# Start standard sail apps.
+	. ${R}etc/init.d/rc.sail_apps
+fi
+
+#
 # VTOL setup.
 #
 if [ $VEHICLE_TYPE = vtol ]

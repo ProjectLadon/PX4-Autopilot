@@ -211,6 +211,11 @@ set(msg_files
 	wheel_encoders.msg
 	wind.msg
 	yaw_estimator_status.msg
+	sail_state.msg
+	wind_data.msg
+	nmea2k_simple.msg
+	wingsail_actuator.msg
+	pid_tune.msg
 )
 
 if(NOT px4_constrained_flash_build)

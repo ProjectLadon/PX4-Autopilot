@@ -31,11 +31,11 @@
 #
 ############################################################################
 
-set(MAVLINK_DIALECT "development") # standard, development, etc
+set(MAVLINK_DIALECT "ladon_robotics") # standard, development, etc
 
 # force mavlink dialect to standard if flash constrained
 if(px4_constrained_flash_build)
-	set(MAVLINK_DIALECT "standard")
+	set(MAVLINK_DIALECT "ladon_robotics")
 endif()
 
 set(MAVLINK_GIT_DIR "${CMAKE_CURRENT_LIST_DIR}/mavlink")

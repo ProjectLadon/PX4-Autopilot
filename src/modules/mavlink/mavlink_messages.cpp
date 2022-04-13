@@ -118,6 +118,9 @@
 #include "streams/VFR_HUD.hpp"
 #include "streams/VIBRATION.hpp"
 #include "streams/WIND_COV.hpp"
+#include "streams/WINGSAIL_ACTUATOR.hpp"
+#include "streams/WIND_DATA.hpp"
+#include "streams/PID_TUNE.hpp"
 
 #if !defined(CONSTRAINED_FLASH)
 # include "streams/ADSB_VEHICLE.hpp"
@@ -554,8 +557,17 @@ static const StreamListItem streams_list[] = {
 	create_stream_list_item<MavlinkStreamEfiStatus>(),
 #endif // EFI_STATUS_HPP
 #if defined(GPS_RTCM_DATA_HPP)
-	create_stream_list_item<MavlinkStreamGPSRTCMData>()
+	create_stream_list_item<MavlinkStreamGPSRTCMData>(),
 #endif // GPS_RTCM_DATA_HPP
+#if defined(WINGSAIL_ACTUATOR_HPP)
+	create_stream_list_item<MavlinkStreamWingsailActuator>(),
+#endif // WINGSAIL_ACTUATOR_HPP
+#if defined(WIND_DATA_HPP)
+	create_stream_list_item<MavlinkStreamWindData>(),
+#endif // WIND_DATA_HPP
+#if defined(PID_TUNE_HPP)
+	create_stream_list_item<MavlinkStreamPidTune>()
+#endif // PID_TUNE_APP
 };
 
 const char *get_stream_name(const uint16_t msg_id)
