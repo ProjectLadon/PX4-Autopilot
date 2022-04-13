@@ -112,6 +112,8 @@
 #include <uORB/topics/vehicle_status.h>
 #include <uORB/topics/vehicle_trajectory_bezier.h>
 #include <uORB/topics/vehicle_trajectory_waypoint.h>
+#include <uORB/topics/wind_data.h>
+#include <uORB/topics/wingsail_actuator.h>
 
 #if !defined(CONSTRAINED_FLASH)
 # include <uORB/topics/debug_array.h>
@@ -204,6 +206,8 @@ private:
 	void handle_message_gimbal_manager_set_manual_control(mavlink_message_t *msg);
 	void handle_message_gimbal_device_information(mavlink_message_t *msg);
 	void handle_message_gimbal_device_attitude_status(mavlink_message_t *msg);
+	void handle_message_wind_data(mavlink_message_t *msg);
+	void handle_message_wingsail_actuator(mavlink_message_t *msg);
 
 #if !defined(CONSTRAINED_FLASH)
 	void handle_message_debug(mavlink_message_t *msg);
@@ -322,6 +326,10 @@ private:
 	uORB::Publication<vehicle_rates_setpoint_s>		_rates_sp_pub{ORB_ID(vehicle_rates_setpoint)};
 	uORB::Publication<vehicle_trajectory_bezier_s>		_trajectory_bezier_pub{ORB_ID(vehicle_trajectory_bezier)};
 	uORB::Publication<vehicle_trajectory_waypoint_s>	_trajectory_waypoint_pub{ORB_ID(vehicle_trajectory_waypoint)};
+	uORB::Publication<wingsail_actuator_s>			_wingsail_actuator_pub{ORB_ID(wingsail_actuator)};
+	uORB::Publication<wind_data_s>				_wind_wing_data_pub{ORB_ID(wind_data)};
+	uORB::Publication<wind_data_s>				_wind_forewing_data_pub{ORB_ID(forewing_wind)};
+	uORB::Publication<wind_data_s>				_wind_mizzenwing_data_pub{ORB_ID(mizzenwing_wind)};
 
 #if !defined(CONSTRAINED_FLASH)
 	uORB::Publication<debug_array_s>			_debug_array_pub {ORB_ID(debug_array)};
