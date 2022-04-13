@@ -1,0 +1,16 @@
+# SAIL_SYS_STATE
+uint8 SAIL_SYS_STATE_BEGIN 		= 0
+uint8 SAIL_SYS_STATE_DIRECT_PORT_TACK	= 1
+uint8 SAIL_SYS_STATE_DIRECT_STBD_TACK	= 2
+uint8 SAIL_SYS_STATE_INDIR_UP_PORT_TACK	= 3
+uint8 SAIL_SYS_STATE_INDIR_UP_STBD_TACK	= 4
+uint8 SAIL_SYS_STATE_INDIR_DN_PORT_TACK	= 5
+uint8 SAIL_SYS_STATE_INDIR_DN_STBD_TACK	= 6
+uint8 SAIL_SYS_STATE_TACK_PORT_STBD	= 7
+uint8 SAIL_SYS_STATE_TACK_STBD_PORT	= 8
+uint8 SAIL_SYS_STATE_GYBE_PORT_STBD	= 9
+uint8 SAIL_SYS_STATE_GYBE_STBD_PORT	= 10
+
+uint64 timestamp	# time since system start, microseconds
+bool power_assist	# True if auxiliary mechanical propulsion should be turned on
+
