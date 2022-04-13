@@ -1,0 +1,40 @@
+#!/bin/sh
+#
+# Standard apps for sailing vessel.
+#
+# NOTE: Script variables are declared/initialized/unset in the rcS script.
+#
+
+#
+# Start the attitude and position estimator.
+#
+ekf2 start &
+#attitude_estimator_q start
+#local_position_estimator start
+
+control_allocator start
+
+#
+# Start position controllers.
+#
+sail_pos_control start
+
+#
+# Start windvane
+#
+# nmea_windvane start /dev/ttyS3
+
+#
+# Start Land Detector.
+#
+land_detector start rover
+
+#
+# Start PWM & load mixer
+#
+pwm_out start
+
+#
+# Start wind mixer
+#
+wind_mixer start

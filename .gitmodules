@@ -1,6 +1,6 @@
 [submodule "src/modules/mavlink/mavlink"]
 	path = src/modules/mavlink/mavlink
-	url = https://github.com/mavlink/mavlink.git
+	url = git@github.com:ProjectLadon/mavlink.git
 	branch = master
 [submodule "src/drivers/uavcan/libuavcan"]
 	path = src/drivers/uavcan/libuavcan
@@ -62,3 +62,18 @@
 	path = src/modules/microdds_client/Micro-XRCE-DDS-Client
 	url = https://github.com/PX4/Micro-XRCE-DDS-Client.git
 	branch = px4
+[submodule "src/modules/sail_pos_control"]
+	path = src/modules/sail_pos_control
+	url = git@github.com:ProjectLadon/PX4_sail_pos_ctrl.git
+[submodule "src/drivers/nmea2k_listener"]
+	path = src/drivers/nmea2k_listener
+	url = git@github.com:ProjectLadon/PX4_nmea2k_listener.git
+[submodule "src/drivers/nmea2k_wind"]
+	path = src/drivers/nmea2k_wind
+	url = git@github.com:ProjectLadon/PX4_nmea2k_wind.git
+[submodule "src/drivers/nmea_windvane"]
+	path = src/drivers/nmea_windvane
+	url = git@github.com:ProjectLadon/px4-nmea-windvane.git
+[submodule "src/modules/wind_mixer"]
+	path = src/modules/wind_mixer
+	url = git@github.com:ProjectLadon/PX4_wind_mixer.git

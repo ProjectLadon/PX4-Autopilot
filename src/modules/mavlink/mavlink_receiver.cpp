@@ -317,7 +317,16 @@ MavlinkReceiver::handle_message(mavlink_message_t *msg)
 		handle_message_gimbal_device_attitude_status(msg);
 		break;
 
+	case MAVLINK_MSG_ID_WINGSAIL_ACTUATOR:
+		handle_message_wingsail_actuator(msg);
+		break;
+
+	case MAVLINK_MSG_ID_WIND_DATA:
+		handle_message_wind_data(msg);
+		break;
+
 	default:
+		PX4_INFO("Received unknown message id %lu", msg->msgid);
 		break;
 	}
 
@@ -681,9 +690,9 @@ void MavlinkReceiver::handle_message_command_both(mavlink_message_t *msg, const 
 			if (_mavlink->get_data_rate() < 5000) {
 				send_ack = true;
 				result = vehicle_command_ack_s::VEHICLE_CMD_RESULT_DENIED;
-				_mavlink->send_statustext_critical("Not enough bandwidth to enable log streaming\t");
-				events::send<uint32_t>(events::ID("mavlink_log_not_enough_bw"), events::Log::Error,
-						       "Not enough bandwidth to enable log streaming ({1} \\< 5000)", _mavlink->get_data_rate());
+				// _mavlink->send_statustext_critical("Not enough bandwidth to enable log streaming\t");
+				// events::send<uint32_t>(events::ID("mavlink_log_not_enough_bw"), events::Log::Error,
+				// 		       "Not enough bandwidth to enable log streaming ({1} \\< 5000)", _mavlink->get_data_rate());
 
 			} else {
 				// we already instanciate the streaming object, because at this point we know on which
@@ -1514,7 +1523,7 @@ MavlinkReceiver::handle_message_odometry(mavlink_message_t *msg)
 	}
 
 	odom.reset_counter = odom_in.reset_counter;
-	odom.quality = odom_in.quality;
+	// odom.quality = odom_in.quality;
 
 	switch (odom_in.estimator_type) {
 	case MAV_ESTIMATOR_TYPE_UNKNOWN: // accept MAV_ESTIMATOR_TYPE_UNKNOWN for legacy support
@@ -3146,6 +3155,77 @@ MavlinkReceiver::handle_message_gimbal_device_attitude_status(mavlink_message_t 
 	gimbal_attitude_status.received_from_mavlink = true;
 
 	_gimbal_device_attitude_status_pub.publish(gimbal_attitude_status);
+}
+
+void
+MavlinkReceiver::handle_message_wingsail_actuator(mavlink_message_t *msg)
+{
+	mavlink_wingsail_actuator_t in;
+	wingsail_actuator_s out;
+	mavlink_msg_wingsail_actuator_decode(msg, &in);
+	out.timestamp = hrt_absolute_time();
+	out.target_sail = in.target_sail;
+	out.sail_angle_type = in.sail_angle_type;
+	out.sail_angle = in.sail_angle;
+	out.flap_active_map = in.flap_active;
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		out.flap_angle[i] = (in.flap_active & (1 << i)) ? in.flap_angle[i] : NAN;
+	}
+	_wingsail_actuator_pub.publish(out);
+}
+
+void
+MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
+{
+    mavlink_wind_data_t in;
+	wind_data_s out;
+	mavlink_msg_wind_data_decode(msg, &in);
+	PX4_INFO("Received wind data mavlink message, source %d", in.source_sail);
+	out.timestamp = hrt_absolute_time();
+	out.timestamp_sample = hrt_absolute_time();
+	out.sail_position = in.source_sail;
+	out.raw_dir = NAN;
+	out.raw_speed = NAN;
+	out.app_dir = NAN;
+	out.app_speed = NAN;
+	out.true_dir = NAN;
+	out.true_speed = NAN;
+	out.app_valid = false;
+	out.true_valid = false;
+	switch (in.wind_type)
+	{
+		case WIND_DATA_TYPE_RAW:
+			out.raw_dir = in.direction;
+			out.raw_speed = in.speed;
+			break;
+		case WIND_DATA_TYPE_APPARENT:
+			out.app_dir = in.direction;
+			out.app_speed = in.speed;
+			out.app_valid = true;
+			break;
+		case WIND_DATA_TYPE_TRUE:
+			out.true_dir = in.direction;
+			out.true_speed = in.speed;
+			out.true_valid = true;
+			break;
+		case WIND_DATA_TYPE_INVALID:
+		default:
+			return;
+	}
+	switch (in.source_sail)
+	{
+		case SAIL_POS_ID_FORE:
+			_wind_forewing_data_pub.publish(out);
+			break;
+		case SAIL_POS_ID_MIZZEN:
+			_wind_mizzenwing_data_pub.publish(out);
+			break;
+		default:
+			_wind_wing_data_pub.publish(out);
+			break;
+	}
+
 }
 
 void
