@@ -100,7 +100,7 @@ px4_add_romfs_files(
 	13030_generic_vtol_quad_tiltrotor
 	13200_generic_vtol_tailsitter
 
-	# [14000, 14999] MC with tilt
+	# [14000, 14999] MC with tilt NI! NI!
 	14001_generic_mc_with_tilt
 
 	16001_helicopter
@@ -124,4 +124,8 @@ px4_add_romfs_files(
 	60000_uuv_generic
 	60001_uuv_hippocampus
 	60002_uuv_bluerov2_heavy
+
+	# [70000, 71000] (Uncrewed) Sailing Robots, Ladon Robotics
+	70000_ladon_micro_proto
+	70001_ladon_ssp
 )

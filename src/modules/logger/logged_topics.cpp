@@ -123,6 +123,9 @@ void LoggedTopics::add_default_topics()
 	add_topic("vehicle_status");
 	add_optional_topic("vtol_vehicle_status", 200);
 	add_topic("wind", 1000);
+	add_topic("wind_data", 250);
+	add_topic("wingsail_actuator", 200);
+
 
 	// multi topics
 	add_optional_topic_multi("actuator_outputs", 100, 3);
@@ -310,6 +313,7 @@ void LoggedTopics::add_debug_topics()
 	add_topic("mag_worker_data");
 	add_topic("sensor_preflight_mag", 500);
 	add_topic("actuator_test", 500);
+	add_topic("pid_tune", 100);
 }
 
 void LoggedTopics::add_estimator_replay_topics()

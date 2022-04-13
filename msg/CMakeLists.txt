@@ -220,6 +220,11 @@ set(msg_files
 	WheelEncoders.msg
 	Wind.msg
 	YawEstimatorStatus.msg
+	SailState.msg
+	WindData.msg
+	Nmea2kSimple.msg
+	WingsailActuator.msg
+	PidTune.msg
 )
 list(SORT msg_files)
 

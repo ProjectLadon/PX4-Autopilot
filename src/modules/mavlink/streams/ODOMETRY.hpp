@@ -139,7 +139,7 @@ private:
 			// source: PX4 estimator
 			msg.estimator_type = MAV_ESTIMATOR_TYPE_AUTOPILOT;
 
-			msg.quality = odom.quality;
+			// msg.quality = odom.quality;
 
 			mavlink_msg_odometry_send_struct(_mavlink->get_channel(), &msg);
 
