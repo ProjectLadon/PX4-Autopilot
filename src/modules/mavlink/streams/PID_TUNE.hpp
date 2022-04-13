@@ -1,6 +1,8 @@
 /****************************************************************************
  *
- *   Copyright (C) 2018 PX4 Development Team. All rights reserved.
+ *   Copyright (c) 2022 Ladon Robotics. All rights reserved.
+ *
+ *   Based on work by the PX4 Development Team.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,29 +33,52 @@
  *
  ****************************************************************************/
 
-#include <px4_arch/spi_hw_description.h>
-#include <drivers/drv_sensor.h>
-#include <nuttx/spi/spi.h>
+#ifndef PID_TUNE_HPP
+#define PID_TUNE_HPP
 
-constexpr px4_spi_bus_t px4_spi_buses[SPI_BUS_MAX_BUS_ITEMS] = {
-	// initSPIBus(SPI::Bus::SPI1, {
-	// 	initSPIDevice(DRV_IMU_DEVTYPE_MPU6000, SPI::CS{GPIO::PortA, GPIO::Pin4}),
-	// 	initSPIDevice(DRV_IMU_DEVTYPE_ICM20602, SPI::CS{GPIO::PortA, GPIO::Pin4}),
-	// }),
-	initSPIBus(SPI::Bus::SPI1, {
-		initSPIDevice(DRV_IMU_DEVTYPE_MPU6000, SPI::CS{GPIO::PortB, GPIO::Pin12}),
-		initSPIDevice(DRV_IMU_DEVTYPE_ICM20602, SPI::CS{GPIO::PortA, GPIO::Pin4}),
-	}),
-	initSPIBus(SPI::Bus::SPI2, {
-		initSPIDevice(SPIDEV_MMCSD(0), SPI::CS{GPIO::PortB, GPIO::Pin15})
-	}),
-	// initSPIBus(SPI::Bus::SPI2, {
-	// 	initSPIDevice(SPIDEV_MMCSD(0), SPI::CS{GPIO::PortB, GPIO::Pin12})
-	// }),
-	initSPIBus(SPI::Bus::SPI3, {
-		initSPIDevice(DRV_BARO_DEVTYPE_BMP280, SPI::CS{GPIO::PortB, GPIO::Pin3}),
-		initSPIDevice(DRV_OSD_DEVTYPE_ATXXXX, SPI::CS{GPIO::PortA, GPIO::Pin15}),
-	}),
+#include <uORB/topics/pid_tune.h>
+
+class MavlinkStreamPidTune : public MavlinkStream
+{
+public:
+    static MavlinkStream *new_instance(Mavlink *mavlink) { return new MavlinkStreamPidTune(mavlink); }
+
+    static constexpr const char *get_name_static() { return "PID_TUNE"; }
+    static constexpr uint16_t get_id_static() { return MAVLINK_MSG_ID_PID_TUNING; }
+
+    const char *get_name() const override { return MavlinkStreamPidTune::get_name_static(); }
+    uint16_t get_id() override { return get_id_static(); }
+
+    unsigned get_size() override
+    {
+        return _sub.advertised() ?
+            MAVLINK_MSG_ID_PID_TUNING + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
+    }
+private:
+    explicit MavlinkStreamPidTune(Mavlink *mavlink) : MavlinkStream(mavlink) {}
+
+    uORB::Subscription _sub{ORB_ID(pid_tune)};
+
+    bool send() override
+    {
+        pid_tune_s tune;
+        if (_sub.update(&tune))
+        {
+            mavlink_pid_tuning_t msg{};
+            msg.axis            = tune.axis;
+            msg.desired         = tune.desired;
+            msg.achieved        = tune.achieved;
+            msg.FF              = tune.ff;
+            msg.P               = tune.p;
+            msg.I               = tune.i;
+            msg.D               = tune.d;
+            msg.SRate           = tune.srate;
+            msg.PDmod           = tune.pdmod;
+            mavlink_msg_pid_tuning_send_struct(_mavlink->get_channel(), &msg);
+            return true;
+        }
+        return false;
+    }
 };
 
-static constexpr bool unused = validateSPIConfig(px4_spi_buses);
+#endif // PID_TUNE_HPP

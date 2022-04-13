@@ -104,7 +104,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y --quiet --no-install-recommends i
 echo
 echo "Installing PX4 Python3 dependencies"
 if [ -n "$VIRTUAL_ENV" ]; then
-	# virtual environments don't allow --user option
+	# virtual envrionments don't allow --user option
 	python -m pip install -r ${DIR}/requirements.txt
 else
 	# older versions of Ubuntu require --user option
@@ -123,8 +123,6 @@ if [[ $INSTALL_NUTTX == "true" ]]; then
 		bison \
 		build-essential \
 		flex \
-		g++-multilib \
-		gcc-multilib \
 		gdb-multiarch \
 		genromfs \
 		gettext \

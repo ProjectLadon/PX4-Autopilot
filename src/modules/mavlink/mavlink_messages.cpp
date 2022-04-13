@@ -120,6 +120,9 @@
 #include "streams/VFR_HUD.hpp"
 #include "streams/VIBRATION.hpp"
 #include "streams/WIND_COV.hpp"
+#include "streams/WINGSAIL_ACTUATOR.hpp"
+#include "streams/WIND_DATA.hpp"
+#include "streams/PID_TUNE.hpp"
 
 #if !defined(CONSTRAINED_FLASH)
 # include "streams/ADSB_VEHICLE.hpp"
@@ -270,7 +273,10 @@ static const StreamListItem streams_list[] = {
 	create_stream_list_item<MavlinkStreamScaledPressure3>(),
 #endif // SCALED_PRESSURE3
 #if defined(ACTUATOR_OUTPUT_STATUS_HPP)
-	create_stream_list_item<MavlinkStreamActuatorOutputStatus>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<0>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<1>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<2>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<3>>(),
 #endif // ACTUATOR_OUTPUT_STATUS_HPP
 #if defined(ATTITUDE_HPP)
 	create_stream_list_item<MavlinkStreamAttitude>(),
@@ -481,8 +487,17 @@ static const StreamListItem streams_list[] = {
 	create_stream_list_item<MavlinkStreamUavionixADSBOutCfg>(),
 #endif // UAVIONIX_ADSB_OUT_CFG_HPP
 #if defined(UAVIONIX_ADSB_OUT_DYNAMIC_HPP)
-	create_stream_list_item<MavlinkStreamUavionixADSBOutDynamic>()
+	create_stream_list_item<MavlinkStreamUavionixADSBOutDynamic>(),
 #endif // UAVIONIX_ADSB_OUT_DYNAMIC_HPP
+#if defined(WINGSAIL_ACTUATOR_HPP)
+	create_stream_list_item<MavlinkStreamWingsailActuator>(),
+#endif // WINGSAIL_ACTUATOR_HPP
+#if defined(WIND_DATA_HPP)
+	create_stream_list_item<MavlinkStreamWindData>(),
+#endif // WIND_DATA_HPP
+#if defined(PID_TUNE_HPP)
+	create_stream_list_item<MavlinkStreamPidTune>()
+#endif // PID_TUNE_APP
 };
 
 const char *get_stream_name(const uint16_t msg_id)

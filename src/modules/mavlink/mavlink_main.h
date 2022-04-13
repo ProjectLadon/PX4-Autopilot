@@ -211,6 +211,7 @@ public:
 		MAVLINK_MODE_GIMBAL,
 		MAVLINK_MODE_ONBOARD_LOW_BANDWIDTH,
 		MAVLINK_MODE_UAVIONIX,
+		MAVLINK_MODE_LADON_WINGS,
 		MAVLINK_MODE_COUNT
 	};
 
@@ -267,6 +268,9 @@ public:
 
 		case MAVLINK_MODE_UAVIONIX:
 			return "uAvionix";
+
+		case MAVLINK_MODE_LADON_WINGS:
+			return "LadonWings";
 
 		default:
 			return "Unknown";

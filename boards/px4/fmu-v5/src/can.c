@@ -59,7 +59,6 @@ uint16_t board_get_can_interfaces(void)
 
 	return enabled_interfaces;
 }
-
 #else
 
 #include <errno.h>
@@ -113,6 +112,7 @@ int can_devinit(void);
 
 int can_devinit(void)
 {
+	// #error "building can_devinit"
 	static bool initialized = false;
 	struct can_dev_s *can;
 	int ret;
