@@ -207,6 +207,7 @@ set(msg_files
 	yaw_estimator_status.msg
 	sail_state.msg
 	wind_data.msg
+	nmea2k_simple.msg
 )
 
 if(NOT px4_constrained_flash_build)

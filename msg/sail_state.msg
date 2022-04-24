@@ -14,3 +14,4 @@ uint8 SAIL_SYS_STATE_GYBE_STBD_PORT	= 10
 uint64 timestamp	# time since system start, microseconds
 bool power_assist	# True if auxiliary mechanical propulsion should be turned on
 
+# TOPICS sail_state
