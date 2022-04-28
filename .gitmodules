@@ -73,3 +73,6 @@
 [submodule "src/drivers/nmea2k_listener"]
 	path = src/drivers/nmea2k_listener
 	url = git@github.com:ProjectLadon/PX4_nmea2k_listener.git
+[submodule "src/drivers/nmea2k_wind"]
+	path = src/drivers/nmea2k_wind
+	url = git@github.com:ProjectLadon/PX4_nmea2k_wind.git
