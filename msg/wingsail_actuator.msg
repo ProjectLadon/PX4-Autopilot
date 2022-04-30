@@ -18,8 +18,6 @@ uint8 SAIL_POS_ID_FORE      = 20
 uint8 SAIL_POS_ID_MAIN      = 21
 uint8 SAIL_POS_ID_MIZZEN    = 22
 
-uint8 target_system         # The target MAVLink system ID
-uint8 target_component      # The target MAVLink component ID
 uint8 target_sail           # The target MAVLink wingsail ID (values from the relevant
 uint8 sail_angle_type       # The type of the sail angle
 float32 sail_angle          # Angle of the sail (deg)
