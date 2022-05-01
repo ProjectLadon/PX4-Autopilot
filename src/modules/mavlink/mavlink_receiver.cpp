@@ -307,6 +307,14 @@ MavlinkReceiver::handle_message(mavlink_message_t *msg)
 		handle_message_gimbal_device_attitude_status(msg);
 		break;
 
+	case MAVLINK_MSG_ID_WINGSAIL_ACTUATOR:
+		handle_message_wingsail_actuator(msg);
+		break;
+
+	case MAVLINK_MSG_ID_WIND_DATA:
+		handle_message_wind_data(msg);
+		break;
+
 	default:
 		break;
 	}
@@ -3071,6 +3079,64 @@ MavlinkReceiver::handle_message_gimbal_device_attitude_status(mavlink_message_t 
 	gimbal_attitude_status.received_from_mavlink = true;
 
 	_gimbal_device_attitude_status_pub.publish(gimbal_attitude_status);
+}
+
+void
+MavlinkReceiver::handle_message_wingsail_actuator(mavlink_message_t *msg)
+{
+	mavlink_wingsail_actuator_t in;
+	wingsail_actuator_s out;
+	mavlink_msg_wingsail_actuator_decode(msg, &in);
+	out.timestamp = hrt_absolute_time();
+	out.target_sail = in.target_sail;
+	out.sail_angle_type = in.sail_angle_type;
+	out.sail_angle = in.sail_angle;
+	out.flap_active_map = in.flap_active;
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		out.flap_angle[i] = (in.flap_active & (1 << i)) ? in.flap_angle[i] : NAN;
+	}
+	_wingsail_actuator_pub.publish(out);
+}
+
+void
+MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
+{
+	mavlink_wind_data_t in;
+	wind_data_s out;
+	mavlink_msg_wind_data_decode(msg, &in);
+	out.timestamp = hrt_absolute_time();
+	out.timestamp_sample = hrt_absolute_time();
+	out.source_pos = in.source_sail;
+	out.raw_dir = NAN;
+	out.raw_speed = NAN;
+	out.app_dir = NAN;
+	out.app_speed = NAN;
+	out.true_dir = NAN;
+	out.true_speed = NAN;
+	out.app_valid = false;
+	out.true_valid = false;
+	switch (in.wind_type)
+	{
+		case WIND_DATA_TYPE_RAW:
+			out.raw_dir = in.direction;
+			out.raw_speed = in.speed;
+			break;
+		case WIND_DATA_TYPE_APPARENT:
+			out.app_dir = in.direction;
+			out.app_speed = in.speed;
+			out.app_valid = true;
+			break;
+		case WIND_DATA_TYPE_TRUE:
+			out.true_dir = in.direction;
+			out.true_speed = in.speed;
+			out.true_valid = true;
+			break;
+		case WIND_DATA_TYPE_INVALID:
+		default:
+			return;
+	}
+	_wind_data_pub.publish(out);
 }
 
 void
