@@ -204,7 +204,6 @@ stm32_boardinitialize(void)
  *
  ****************************************************************************/
 
-extern int can_devinit(void);
 
 __EXPORT int board_app_initialize(uintptr_t arg)
 {
@@ -279,8 +278,6 @@ __EXPORT int board_app_initialize(uintptr_t arg)
 	}
 
 #endif /* CONFIG_MMCSD */
-
-	can_devinit();
 
 	/* Configure the HW based on the manifest */
 
