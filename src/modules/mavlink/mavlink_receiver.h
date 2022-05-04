@@ -325,7 +325,9 @@ private:
 	uORB::Publication<vehicle_trajectory_bezier_s>		_trajectory_bezier_pub{ORB_ID(vehicle_trajectory_bezier)};
 	uORB::Publication<vehicle_trajectory_waypoint_s>	_trajectory_waypoint_pub{ORB_ID(vehicle_trajectory_waypoint)};
 	uORB::Publication<wingsail_actuator_s>			_wingsail_actuator_pub{ORB_ID(wingsail_actuator)};
-	uORB::Publication<wind_data_s>				_wind_data_pub{ORB_ID(wind_data)};
+	uORB::Publication<wind_data_s>				_wind_wing_data_pub{ORB_ID(wind_data)};
+	uORB::Publication<wind_data_s>				_wind_forewing_data_pub{ORB_ID(forewing_wind)};
+	uORB::Publication<wind_data_s>				_wind_mizzenwing_data_pub{ORB_ID(mizzenwing_wind)};
 
 #if !defined(CONSTRAINED_FLASH)
 	uORB::Publication<debug_array_s>			_debug_array_pub {ORB_ID(debug_array)};

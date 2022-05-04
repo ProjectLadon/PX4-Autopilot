@@ -3107,7 +3107,6 @@ MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 	mavlink_msg_wind_data_decode(msg, &in);
 	out.timestamp = hrt_absolute_time();
 	out.timestamp_sample = hrt_absolute_time();
-	out.source_pos = in.source_sail;
 	out.raw_dir = NAN;
 	out.raw_speed = NAN;
 	out.app_dir = NAN;
@@ -3136,7 +3135,19 @@ MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 		default:
 			return;
 	}
-	_wind_data_pub.publish(out);
+	switch (in.source_sail)
+	{
+		case SAIL_POS_ID_FORE:
+			_wind_forewing_data_pub.publish(out);
+			break;
+		case SAIL_POS_ID_MIZZEN:
+			_wind_forewing_data_pub.publish(out);
+			break;
+		default:
+			_wind_wing_data_pub.publish(out);
+			break;
+	}
+
 }
 
 void
