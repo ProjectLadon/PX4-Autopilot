@@ -209,6 +209,7 @@ set(msg_files
 	wind_data.msg
 	nmea2k_simple.msg
 	wingsail_actuator.msg
+	pid_tune.msg
 )
 
 if(NOT px4_constrained_flash_build)
