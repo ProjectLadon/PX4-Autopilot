@@ -76,3 +76,6 @@
 [submodule "src/drivers/nmea2k_wind"]
 	path = src/drivers/nmea2k_wind
 	url = git@github.com:ProjectLadon/PX4_nmea2k_wind.git
+[submodule "src/drivers/nmea_windvane"]
+	path = src/drivers/nmea_windvane
+	url = git@github.com:ProjectLadon/px4-nmea-windvane.git

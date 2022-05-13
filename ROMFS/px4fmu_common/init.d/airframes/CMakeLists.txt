@@ -168,4 +168,8 @@ px4_add_romfs_files(
 	60000_uuv_generic
 	60001_uuv_hippocampus
 	60002_uuv_bluerov2_heavy
+
+	# [70000, 71000] (Uncrewed) Sailing Robots, Ladon Robotics
+	70000_ladon_micro_proto
+
 )
