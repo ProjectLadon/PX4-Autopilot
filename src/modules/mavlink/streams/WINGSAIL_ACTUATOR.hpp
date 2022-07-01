@@ -62,7 +62,8 @@ private:
     bool send() override
     {
         wingsail_actuator_s act;
-        if (_wing_act_sub.update(&act))
+	uint8_t cnt = 0;
+        while (_wing_act_sub.update(&act))
         {
             mavlink_wingsail_actuator_t msg{};
             msg.target_sail     = act.target_sail;
@@ -76,9 +77,10 @@ private:
 
             mavlink_msg_wingsail_actuator_send_struct(_mavlink->get_channel(), &msg);
 
-            return true;
+            cnt++;
         }
 
+	if (cnt > 0) return true;
         return false;
     }
 

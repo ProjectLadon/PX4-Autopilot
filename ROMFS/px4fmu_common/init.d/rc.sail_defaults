@@ -26,9 +26,8 @@ param set-default NAV_FW_ALT_RAD 1000
 # Enable servo output on 1 & 2 for rudders
 # Enable servo output on 3 & 4 for port and starboard aux propulsion
 # Enable servo output on 5 & 6 for auxiliary propulsion deployment
-# 7 & 8 enabled b/c they are part of the same group
 #
-set PWM_OUT 12345678
+set PWM_OUT 123456
 
 #
 # PWM Hz - 50 Hz is the normal rate in RC cars, higher rates

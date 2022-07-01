@@ -15,6 +15,7 @@ uint8 SAIL_SYS_STATE_PORT_TACK_RECOVERY = 12
 
 uint64 timestamp	# time since system start, microseconds
 uint8 state 		# Current sailing system state
+float32 wind_bearing	# Current wind angle
 bool power_assist	# True if auxiliary mechanical propulsion should be turned on
 
 # TOPICS sail_state
