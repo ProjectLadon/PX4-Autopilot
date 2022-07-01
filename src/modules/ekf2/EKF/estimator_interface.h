@@ -303,9 +303,9 @@ protected:
 	float _air_density{CONSTANTS_AIR_DENSITY_SEA_LEVEL_15C};		// air density (kg/m**3)
 
 	// Sensor limitations
-	float _flow_max_rate{0.0f}; ///< maximum angular flow rate that the optical flow sensor can measure (rad/s)
+	float _flow_max_rate{1.0f}; ///< maximum angular flow rate that the optical flow sensor can measure (rad/s)
 	float _flow_min_distance{0.0f};	///< minimum distance that the optical flow sensor can operate at (m)
-	float _flow_max_distance{0.0f};	///< maximum distance that the optical flow sensor can operate at (m)
+	float _flow_max_distance{10.f};	///< maximum distance that the optical flow sensor can operate at (m)
 
 	// Output Predictor
 	outputSample _output_new{};		// filter output on the non-delayed time horizon
@@ -329,15 +329,11 @@ protected:
 
 	// innovation consistency check monitoring ratios
 	float _yaw_test_ratio{};		// yaw innovation consistency check ratio
-	AlphaFilter<float>_yaw_signed_test_ratio_lpf{0.1f}; // average signed test ratio used to detect a bias in the state
+	AlphaFilter<float> _yaw_signed_test_ratio_lpf{0.1f}; // average signed test ratio used to detect a bias in the state
 	Vector3f _mag_test_ratio{};		// magnetometer XYZ innovation consistency check ratios
-	Vector2f _gps_vel_test_ratio{};		// GPS velocity innovation consistency check ratios
-	Vector2f _gps_pos_test_ratio{};		// GPS position innovation consistency check ratios
 	Vector2f _ev_vel_test_ratio{};		// EV velocity innovation consistency check ratios
 	Vector2f _ev_pos_test_ratio{};		// EV position innovation consistency check ratios
 	Vector2f _aux_vel_test_ratio{};		// Auxiliary horizontal velocity innovation consistency check ratio
-	float _baro_hgt_test_ratio{};	// baro height innovation consistency check ratios
-	float _rng_hgt_test_ratio{};		// range finder height innovation consistency check ratios
 	float _optflow_test_ratio{};		// Optical flow innovation consistency check ratio
 	float _tas_test_ratio{};		// tas innovation consistency check ratio
 	float _hagl_test_ratio{};		// height above terrain measurement innovation consistency check ratio

@@ -263,8 +263,8 @@ struct parameters {
 	float accel_bias_p_noise{1.0e-2f};      ///< process noise for IMU accelerometer bias prediction (m/sec**3)
 	float mage_p_noise{1.0e-3f};            ///< process noise for earth magnetic field prediction (Gauss/sec)
 	float magb_p_noise{1.0e-4f};            ///< process noise for body magnetic field prediction (Gauss/sec)
-	float wind_vel_p_noise{1.0e-1f};        ///< process noise for wind velocity prediction (m/sec**2)
-	const float wind_vel_p_noise_scaler{0.5f};      ///< scaling of wind process noise with vertical velocity
+	float wind_vel_nsd{1.0e-2f};        ///< process noise spectral density for wind velocity prediction (m/sec**2/sqrt(Hz))
+	const float wind_vel_nsd_scaler{0.5f};      ///< scaling of wind process noise with vertical velocity
 
 	float terrain_p_noise{5.0f};            ///< process noise for terrain offset (m/sec)
 	float terrain_gradient{0.5f};           ///< gradient of terrain used to estimate process noise due to changing position (m/m)
@@ -550,6 +550,10 @@ union information_event_status_u {
 		bool starting_vision_vel_fusion : 1; ///< 10 - true when the filter starts using vision system velocity measurements to correct the state estimates
 		bool starting_vision_yaw_fusion : 1; ///< 11 - true when the filter starts using vision system yaw  measurements to correct the state estimates
 		bool yaw_aligned_to_imu_gps     : 1; ///< 12 - true when the filter resets the yaw to an estimate derived from IMU and GPS data
+		bool reset_hgt_to_baro          : 1; ///< 13 - true when the vertical position state is reset to the baro measurement
+		bool reset_hgt_to_gps           : 1; ///< 14 - true when the vertical position state is reset to the gps measurement
+		bool reset_hgt_to_rng           : 1; ///< 15 - true when the vertical position state is reset to the rng measurement
+		bool reset_hgt_to_ev            : 1; ///< 16 - true when the vertical position state is reset to the ev measurement
 	} flags;
 	uint32_t value;
 };

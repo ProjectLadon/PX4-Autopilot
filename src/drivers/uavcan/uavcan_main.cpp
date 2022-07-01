@@ -951,8 +951,6 @@ UavcanNode::ioctl(file *filp, int cmd, unsigned long arg)
 	switch (cmd) {
 	case PWM_SERVO_SET_ARM_OK:
 	case PWM_SERVO_CLEAR_ARM_OK:
-	case PWM_SERVO_SET_FORCE_SAFETY_OFF:
-		// these are no-ops, as no safety switch
 		break;
 
 	case MIXERIOCRESET:
@@ -1202,7 +1200,8 @@ UavcanNode::param_count(uavcan::NodeID node_id)
 	req.index = 0;
 	int call_res = _param_getset_client.call(node_id, req);
 
-	if (call_res < 0) {
+	// -ErrInvalidParam is returned when no UAVCAN device is connected to the CAN bus
+	if ((call_res < 0) && (-uavcan::ErrInvalidParam != call_res)) {
 		PX4_ERR("couldn't start parameter count: %d", call_res);
 
 	} else {
