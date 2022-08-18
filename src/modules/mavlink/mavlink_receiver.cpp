@@ -1529,7 +1529,7 @@ MavlinkReceiver::handle_message_odometry(mavlink_message_t *msg)
 	}
 
 	odom.reset_counter = odom_in.reset_counter;
-	odom.quality = odom_in.quality;
+	// odom.quality = odom_in.quality;
 
 	switch (odom_in.estimator_type) {
 	case MAV_ESTIMATOR_TYPE_UNKNOWN: // accept MAV_ESTIMATOR_TYPE_UNKNOWN for legacy support
