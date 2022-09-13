@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# @name Ladon Robotics Micro Prototype
+# @name Ladon Robotics Subscale Prototype
 #
 # @type Rover
 # @class Rover
@@ -15,7 +15,6 @@
 #
 
 . ${R}etc/init.d/rc.sail_defaults
-
 
 param set-default BAT1_N_CELLS 3
 
@@ -57,4 +56,7 @@ param set-default NAV_ACC_RAD 0.5
 param set-default PWM_MAIN_DISARM 1500
 param set-default PWM_MAIN_MAX 2000
 param set-default PWM_MAIN_MIN 1000
+
+# Turn off the internal windvane
+param set-default WINDVANE_EN 0
 
