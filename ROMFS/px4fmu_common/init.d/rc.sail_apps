@@ -12,13 +12,7 @@ ekf2 start &
 #attitude_estimator_q start
 #local_position_estimator start
 
-if param compare SYS_CTRL_ALLOC 1
-then
-	#
-	# Start Control Allocator
-	#
-	control_allocator start
-fi
+control_allocator start
 
 #
 # Start position controllers.
@@ -39,4 +33,3 @@ land_detector start rover
 # Start PWM & load mixer
 #
 pwm_out start
-mixer load /dev/pwm_output0 /etc/mixers/sail_diff.main.mix

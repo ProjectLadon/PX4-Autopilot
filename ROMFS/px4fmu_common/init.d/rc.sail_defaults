@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# UGV default parameters.
+# Sailing USV default parameters.
 #
 # NOTE: Script variables are declared/initialized/unset in the rcS script.
 #
@@ -11,7 +11,7 @@ set VEHICLE_TYPE sail
 param set-default MAV_TYPE 11
 
 #
-# Default parameters for UGVs.
+# Default parameters for UGVs/USVs.
 #
 param set-default MIS_LTRMIN_ALT 0.01
 param set-default MIS_TAKEOFF_ALT 0.01
@@ -35,8 +35,3 @@ set PWM_OUT 123456
 #
 set PWM_MAIN_RATE 50
 
-#
-# This is the gimbal pass mixer.
-#
-set MIXER_AUX pass
-set PWM_AUX_OUT 1234
