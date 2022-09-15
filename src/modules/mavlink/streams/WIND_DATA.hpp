@@ -65,7 +65,7 @@ private:
         if (_wind_data_sub.update(&wind))
         {
             mavlink_wind_data_t msg{};
-            msg.source_sail = SAIL_POS_ID_NONE;
+            msg.source_sail = wind.sail_position;
             msg.wind_type = WIND_DATA_TYPE_RAW;
             msg.speed = wind.raw_speed;
             msg.direction = wind.raw_dir;
