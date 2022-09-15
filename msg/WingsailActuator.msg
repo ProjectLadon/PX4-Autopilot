@@ -6,6 +6,7 @@ uint8 SAIL_ANGLE_TYPE_ROT = 2
 
 # should match the SAIL_POS_ID MAVLink enum 1:1
 uint8 SAIL_POS_ID_SINGLE    = 0
+uint8 SAIL_POS_ID_MIXED     = 201
 uint8 SAIL_POS_ID_1         = 1
 uint8 SAIL_POS_ID_2         = 2
 uint8 SAIL_POS_ID_3         = 3

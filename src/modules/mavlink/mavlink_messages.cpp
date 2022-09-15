@@ -274,7 +274,10 @@ static const StreamListItem streams_list[] = {
 	create_stream_list_item<MavlinkStreamScaledPressure3>(),
 #endif // SCALED_PRESSURE3
 #if defined(ACTUATOR_OUTPUT_STATUS_HPP)
-	create_stream_list_item<MavlinkStreamActuatorOutputStatus>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<0>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<1>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<2>>(),
+	create_stream_list_item<MavlinkStreamActuatorOutputStatus<3>>(),
 #endif // ACTUATOR_OUTPUT_STATUS_HPP
 #if defined(ATTITUDE_HPP)
 	create_stream_list_item<MavlinkStreamAttitude>(),
