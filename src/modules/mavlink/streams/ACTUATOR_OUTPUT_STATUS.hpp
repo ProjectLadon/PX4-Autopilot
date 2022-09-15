@@ -36,51 +36,95 @@
 
 #include <uORB/topics/actuator_outputs.h>
 
+template <int N>
 class MavlinkStreamActuatorOutputStatus : public MavlinkStream
 {
 public:
-	static MavlinkStream *new_instance(Mavlink *mavlink) { return new MavlinkStreamActuatorOutputStatus(mavlink); }
+        static MavlinkStream *new_instance(Mavlink *mavlink) { return new MavlinkStreamActuatorOutputStatus<N>(mavlink); }
 
-	static constexpr const char *get_name_static() { return "ACTUATOR_OUTPUT_STATUS"; }
-	static constexpr uint16_t get_id_static() { return MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS; }
+        static constexpr const char *get_name_static()
+        {
+                switch (N) {
+                case 0:
+                        return "ACTUATOR_OUTPUT_STATUS0";
 
-	const char *get_name() const override { return get_name_static(); }
-	uint16_t get_id() override { return get_id_static(); }
+                case 1:
+                        return "ACTUATOR_OUTPUT_STATUS1";
 
-	unsigned get_size() override
-	{
-		return _act_output_sub.advertised() ? (MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES) : 0;
-	}
+                case 2:
+                        return "ACTUATOR_OUTPUT_STATUS2";
+
+                case 3:
+                        return "ACTUATOR_OUTPUT_STATUS3";
+                }
+                return "ACTUATOR_OUTPUT_STATUS";
+        }
+        static constexpr uint16_t get_id_static() { return MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS; }
+
+        const char *get_name() const override { return get_name_static(); }
+        uint16_t get_id() override { return get_id_static(); }
+
+        unsigned get_size() override
+        {
+                return _act_output_sub->advertised() ? (MAVLINK_MSG_ID_ACTUATOR_OUTPUT_STATUS_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES) : 0;
+        }
 
 private:
-	explicit MavlinkStreamActuatorOutputStatus(Mavlink *mavlink) : MavlinkStream(mavlink) {}
+        explicit MavlinkStreamActuatorOutputStatus(Mavlink *mavlink) : MavlinkStream(mavlink)
+        {
+                switch (N)
+                {
+                        case 0:
+                                _act_output_sub = new uORB::Subscription{ORB_ID(actuator_outputs), 0};
+                                break;
+                        case 1:
+                                _act_output_sub = new uORB::Subscription{ORB_ID(actuator_outputs), 1};
+                                break;
+                        case 2:
+                                _act_output_sub = new uORB::Subscription{ORB_ID(actuator_outputs), 2};
+                                break;
+                        case 3:
+                                _act_output_sub = new uORB::Subscription{ORB_ID(actuator_outputs), 3};
+                                break;
+                        default:
+                                _act_output_sub = new uORB::Subscription{ORB_ID(actuator_outputs), 0};
+                }
 
-	uORB::Subscription _act_output_sub{ORB_ID(actuator_outputs)};
+        }
 
-	bool send() override
-	{
-		actuator_outputs_s act;
+        ~MavlinkStreamActuatorOutputStatus() override
+        {
+                delete _act_output_sub;
+        }
 
-		if (_act_output_sub.update(&act)) {
-			mavlink_actuator_output_status_t msg{};
+        uORB::Subscription *_act_output_sub{nullptr};
 
-			msg.time_usec = act.timestamp;
-			msg.active = act.noutputs;
+        bool send() override
+        {
+                // PX4_INFO("Attempting to send ACTUATOR_OUTPUT_STATUS %d", N);
+                actuator_outputs_s act;
 
-			static size_t actuator_outputs_size = act.noutputs;
-			static constexpr size_t mavlink_actuator_output_status_size = sizeof(msg.actuator) / sizeof(msg.actuator[0]);
+                if (_act_output_sub and _act_output_sub->update(&act)) {
+                        // PX4_INFO("Received actuator_outputs; sending ACTUATOR_OUTPUT_STATUS %d", N);
+                        mavlink_actuator_output_status_t msg{};
 
-			for (unsigned i = 0; i < math::min(actuator_outputs_size, mavlink_actuator_output_status_size); i++) {
-				msg.actuator[i] = act.output[i];
-			}
+                        msg.time_usec = act.timestamp;
+                        msg.active = act.noutputs;
 
-			mavlink_msg_actuator_output_status_send_struct(_mavlink->get_channel(), &msg);
+                        static size_t actuator_outputs_size = act.noutputs;
+                        static constexpr size_t mavlink_actuator_output_status_size = sizeof(msg.actuator) / sizeof(msg.actuator[0]);
 
-			return true;
-		}
+                        for (unsigned i = 0; i < math::min(actuator_outputs_size, mavlink_actuator_output_status_size); i++) {
+                                msg.actuator[i] = act.output[i];
+                        }
 
-		return false;
-	}
+                        mavlink_msg_actuator_output_status_send_struct(_mavlink->get_channel(), &msg);
+
+                        return true;
+                }
+
+                return false;
+        }
 };
 
 #endif // ACTUATOR_OUTPUT_STATUS_HPP

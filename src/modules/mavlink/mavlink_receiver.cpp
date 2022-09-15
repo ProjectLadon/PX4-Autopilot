@@ -3181,6 +3181,7 @@ MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 	mavlink_msg_wind_data_decode(msg, &in);
 	out.timestamp = hrt_absolute_time();
 	out.timestamp_sample = hrt_absolute_time();
+	out.sail_position = in.source_sail;
 	out.raw_dir = NAN;
 	out.raw_speed = NAN;
 	out.app_dir = NAN;
