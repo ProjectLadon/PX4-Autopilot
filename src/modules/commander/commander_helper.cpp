@@ -120,7 +120,8 @@ bool is_fixed_wing(const vehicle_status_s &current_status)
 
 bool is_ground_rover(const vehicle_status_s &current_status)
 {
-	return current_status.system_type == VEHICLE_TYPE_GROUND_ROVER;
+	return ((current_status.system_type == VEHICLE_TYPE_GROUND_ROVER)
+		or (current_status.system_type == VEHICLE_TYPE_BOAT));
 }
 
 bool is_boat(const vehicle_status_s &current_status)
