@@ -1596,7 +1596,7 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("WIND_COV", 10.0f);
 
 		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 9/14/2022
-		configure_stream_local("ACTUATOR_OUTPUT_STATUS2", 20.0);
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
 		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
 		configure_stream_local("WIND_DATA", 5.0);
 
@@ -1753,6 +1753,12 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("VFR_HUD", 20.0f);
 		configure_stream_local("VIBRATION", 2.5f);
 		configure_stream_local("WIND_COV", 10.0f);
+
+		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 10/13/2022
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
+		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
+		configure_stream_local("WIND_DATA", 5.0);
+
 
 #if !defined(CONSTRAINED_FLASH)
 		configure_stream_local("DEBUG", 50.0f);

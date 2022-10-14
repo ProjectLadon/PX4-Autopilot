@@ -52,7 +52,7 @@ public:
     unsigned get_size() override
     {
         return _wind_data_sub.advertised() ?
-            MAVLINK_MSG_ID_WIND_DATA + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
+            MAVLINK_MSG_ID_WIND_DATA_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
     }
 private:
     explicit MavlinkStreamWindData(Mavlink *mavlink) : MavlinkStream(mavlink) {}
