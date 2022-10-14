@@ -52,8 +52,9 @@ public:
     unsigned get_size() override
     {
         return _wing_act_sub.advertised() ?
-            MAVLINK_MSG_ID_WINGSAIL_ACTUATOR + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
+            MAVLINK_MSG_ID_WINGSAIL_ACTUATOR_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
     }
+
 private:
     explicit MavlinkStreamWingsailActuator(Mavlink *mavlink) : MavlinkStream(mavlink) {}
 
