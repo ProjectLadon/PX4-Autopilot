@@ -326,6 +326,7 @@ MavlinkReceiver::handle_message(mavlink_message_t *msg)
 		break;
 
 	default:
+		PX4_INFO("Received unknown message id %lu", msg->msgid);
 		break;
 	}
 
@@ -3183,6 +3184,7 @@ MavlinkReceiver::handle_message_wingsail_actuator(mavlink_message_t *msg)
 void
 MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 {
+	PX4_INFO("Received wind data mavlink message");
 	mavlink_wind_data_t in;
 	wind_data_s out;
 	mavlink_msg_wind_data_decode(msg, &in);
@@ -3223,7 +3225,7 @@ MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 			_wind_forewing_data_pub.publish(out);
 			break;
 		case SAIL_POS_ID_MIZZEN:
-			_wind_forewing_data_pub.publish(out);
+			_wind_mizzenwing_data_pub.publish(out);
 			break;
 		default:
 			_wind_wing_data_pub.publish(out);
