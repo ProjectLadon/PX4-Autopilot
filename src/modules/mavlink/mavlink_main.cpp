@@ -1533,6 +1533,12 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("VIBRATION", 0.1f);
 		configure_stream_local("WIND_COV", 0.5f);
 
+		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 12/27/2022
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
+		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
+		configure_stream_local("WIND_DATA", 5.0);
+
+
 #if !defined(CONSTRAINED_FLASH)
 		configure_stream_local("DEBUG", 1.0f);
 		configure_stream_local("DEBUG_FLOAT_ARRAY", 1.0f);
@@ -1855,6 +1861,17 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 	case MAVLINK_MODE_UAVIONIX:
 		configure_stream_local("UAVIONIX_ADSB_OUT_CFG", 0.1f);
 		configure_stream_local("UAVIONIX_ADSB_OUT_DYNAMIC", 5.0f);
+		break;
+
+	case MAVLINK_MODE_LADON_WINGS:
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 5.0f);
+		configure_stream_local("WINGSAIL_ACTUATOR", 10.0f);
+		configure_stream_local("WIND_DATA", 5.0f);
+		configure_stream_local("SYS_STATUS", 5.0f);
+		configure_stream_local("EXTENDED_SYS_STATE", 0.1f);
+		configure_stream_local("NAMED_VALUE_FLOAT", 1.0f);
+		configure_stream_local("NAMED_VALUE_INT", 1.0f);
+		configure_stream_local("RC_CHANNELS", 0.5f);
 		break;
 
 	default:
