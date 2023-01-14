@@ -124,7 +124,10 @@ void LoggedTopics::add_default_topics()
 	add_optional_topic("vtol_vehicle_status", 200);
 	add_topic("wind", 1000);
 	add_topic("wind_data", 250);
-	add_topic("wingsail_actuator", 200);
+	add_topic("wingsail_actuator");
+	add_topic("forewing_wind", 200);
+	add_topic("mizzen_wind", 200);
+	add_topic("mixed_wind", 200);
 
 
 	// multi topics
