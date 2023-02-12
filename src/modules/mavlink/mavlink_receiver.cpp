@@ -690,9 +690,9 @@ void MavlinkReceiver::handle_message_command_both(mavlink_message_t *msg, const 
 			if (_mavlink->get_data_rate() < 5000) {
 				send_ack = true;
 				result = vehicle_command_ack_s::VEHICLE_CMD_RESULT_DENIED;
-				_mavlink->send_statustext_critical("Not enough bandwidth to enable log streaming\t");
-				events::send<uint32_t>(events::ID("mavlink_log_not_enough_bw"), events::Log::Error,
-						       "Not enough bandwidth to enable log streaming ({1} \\< 5000)", _mavlink->get_data_rate());
+				// _mavlink->send_statustext_critical("Not enough bandwidth to enable log streaming\t");
+				// events::send<uint32_t>(events::ID("mavlink_log_not_enough_bw"), events::Log::Error,
+				// 		       "Not enough bandwidth to enable log streaming ({1} \\< 5000)", _mavlink->get_data_rate());
 
 			} else {
 				// we already instanciate the streaming object, because at this point we know on which
@@ -3178,10 +3178,10 @@ MavlinkReceiver::handle_message_wingsail_actuator(mavlink_message_t *msg)
 void
 MavlinkReceiver::handle_message_wind_data(mavlink_message_t *msg)
 {
-	PX4_INFO("Received wind data mavlink message");
-	mavlink_wind_data_t in;
+    mavlink_wind_data_t in;
 	wind_data_s out;
 	mavlink_msg_wind_data_decode(msg, &in);
+	PX4_INFO("Received wind data mavlink message, source %d", in.source_sail);
 	out.timestamp = hrt_absolute_time();
 	out.timestamp_sample = hrt_absolute_time();
 	out.sail_position = in.source_sail;
