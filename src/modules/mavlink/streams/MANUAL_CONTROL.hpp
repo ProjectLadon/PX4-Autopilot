@@ -73,6 +73,14 @@ private:
 			msg.z = manual_control_setpoint.throttle * 1000;
 			msg.r = manual_control_setpoint.yaw * 1000;
 
+            msg.buttons2 = 0;
+            if (manual_control_setpoint.aux1 > 0.0f) { msg.buttons2 |= (1 << 0); }
+            if (manual_control_setpoint.aux2 > 0.0f) { msg.buttons2 |= (1 << 1); }
+            if (manual_control_setpoint.aux3 > 0.0f) { msg.buttons2 |= (1 << 2); }
+            if (manual_control_setpoint.aux4 > 0.0f) { msg.buttons2 |= (1 << 3); }
+            if (manual_control_setpoint.aux5 > 0.0f) { msg.buttons2 |= (1 << 4); }
+            if (manual_control_setpoint.aux6 > 0.0f) { msg.buttons2 |= (1 << 5); }
+
 			manual_control_switches_s manual_control_switches{};
 
 			if (_manual_control_switches_sub.copy(&manual_control_switches)) {
