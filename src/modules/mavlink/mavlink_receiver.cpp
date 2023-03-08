@@ -321,6 +321,10 @@ MavlinkReceiver::handle_message(mavlink_message_t *msg)
 		handle_message_wingsail_actuator(msg);
 		break;
 
+	case MAVLINK_MSG_ID_WINGSAIL_FEEDBACK:
+		handle_message_wingsail_feedback(msg);
+		break;
+
 	case MAVLINK_MSG_ID_WIND_DATA:
 		handle_message_wind_data(msg);
 		break;
@@ -3173,6 +3177,35 @@ MavlinkReceiver::handle_message_wingsail_actuator(mavlink_message_t *msg)
 		out.flap_angle[i] = (in.flap_active & (1 << i)) ? in.flap_angle[i] : NAN;
 	}
 	_wingsail_actuator_pub.publish(out);
+}
+
+void
+MavlinkReceiver::handle_message_wingsail_feedback(mavlink_message_t *msg)
+{
+	mavlink_wingsail_feedback_t in;
+	wingsail_feedback_s out;
+	mavlink_msg_wingsail_feedback_decode(msg, &in);
+	out.timestamp = hrt_absolute_time();
+	out.source_sail = in.source_sail;
+	out.sail_angle = in.sail_angle;
+	out.wind_angle = in.wind_angle;
+	out.flap_active_map = in.flap_active;
+	for (uint8_t i = 0; i < 8; i++)
+	{
+		out.flap_angle[i] = (in.flap_active & (1 << i)) ? in.flap_angle[i] : NAN;
+	}
+	switch (in.source_sail)
+	{
+		case SAIL_POS_ID_FORE:
+			_forewing_feedback_pub.publish(out);
+			break;
+		case SAIL_POS_ID_MIZZEN:
+			_mizzenwing_feedback_pub.publish(out);
+			break;
+		default:
+			_wingsail_feedback_pub.publish(out);
+			break;
+	}
 }
 
 void

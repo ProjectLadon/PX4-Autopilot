@@ -25,4 +25,4 @@ float32 sail_angle          # Angle of the sail (deg)
 uint8 flap_active_map       # Bitmap of active flaps
 float32[8] flap_angle       # Angle of each flap (deg)
 
-# TOPICS wingsail_actuator wingsail_actuator_out wingsail_actuator_in
+# TOPICS wingsail_actuator wingsail_actuator_out wingsail_actuator_in forewing_actuator mizzenwing_actuator

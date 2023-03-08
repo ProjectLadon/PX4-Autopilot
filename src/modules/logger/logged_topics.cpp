@@ -125,6 +125,11 @@ void LoggedTopics::add_default_topics()
 	add_topic("wind", 1000);
 	add_topic("wind_data", 250);
 	add_topic("wingsail_actuator");
+	add_topic("forewing_actuator");
+	add_topic("mizzenwing_actuator");
+	add_topic("wingsail_feedback");
+	add_topic("forewing_feedback");
+	add_topic("mizzenwing_feedback");
 	add_topic("forewing_wind", 200);
 	add_topic("mizzenwing_wind", 200);
 	add_topic("mixed_wind", 200);

@@ -224,6 +224,7 @@ set(msg_files
 	WindData.msg
 	Nmea2kSimple.msg
 	WingsailActuator.msg
+	WingsailFeedback.msg
 	PidTune.msg
 )
 list(SORT msg_files)

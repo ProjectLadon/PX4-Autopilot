@@ -21,10 +21,10 @@ uint8 SAIL_POS_ID_NONE        = 255
 
 uint64 timestamp                # time since system start (microseconds)
 
-uint8 source_sail               # The target MAVLink wingsail ID (values from the relevant
-uint8 sail_angle_type           # The type of the sail angle
-float32 sail_angle              # Angle of the sail (deg)
+uint8 source_sail               # The target MAVLink wingsail ID (values from the relevant enum)
+float32 sail_angle              # Angle of the sail to the boat (deg)
+float32 wind_angle              # Angle of the sail to the wind (deg)
 uint8 flap_active_map           # Bitmap of active flaps
 float32[8] flap_angle           # Angle of each flap (deg)
 
-# TOPICS wingsail_feedback forewing_feedback mizzen_feedback
+# TOPICS wingsail_feedback forewing_feedback mizzen_feedback mizzenwing_feedback
