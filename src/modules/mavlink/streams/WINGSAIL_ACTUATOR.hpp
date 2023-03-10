@@ -51,7 +51,7 @@ public:
 
     unsigned get_size() override
     {
-        return _wing_act_sub.advertised() ?
+        return (_wing_act_sub.advertised() or _wing_act_fore_sub.advertised() or _wing_act_mizzen_sub.advertised()) ?
             MAVLINK_MSG_ID_WINGSAIL_ACTUATOR_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES : 0;
     }
 
@@ -59,29 +59,44 @@ private:
     explicit MavlinkStreamWingsailActuator(Mavlink *mavlink) : MavlinkStream(mavlink) {}
 
     uORB::Subscription _wing_act_sub{ORB_ID(wingsail_actuator)};
+    uORB::Subscription _wing_act_fore_sub{ORB_ID(forewing_actuator)};
+    uORB::Subscription _wing_act_mizzen_sub{ORB_ID(mizzenwing_actuator)};
+
+    void send_msg(wingsail_actuator_s &act)
+    {
+        mavlink_wingsail_actuator_t msg{};
+        msg.target_sail     = act.target_sail;
+        msg.sail_angle_type = act.sail_angle_type;
+        msg.sail_angle      = act.sail_angle;
+        msg.flap_active     = act.flap_active_map;
+        for (uint8_t i = 0; i < 8; i++)
+        {
+            msg.flap_angle[i] = (msg.flap_active & (1 << i)) ? act.flap_angle[i] : NAN;
+        }
+        mavlink_msg_wingsail_actuator_send_struct(_mavlink->get_channel(), &msg);
+    }
 
     bool send() override
     {
         wingsail_actuator_s act;
-	uint8_t cnt = 0;
+	    uint8_t cnt = 0;
         while (_wing_act_sub.update(&act))
         {
-            mavlink_wingsail_actuator_t msg{};
-            msg.target_sail     = act.target_sail;
-            msg.sail_angle_type = act.sail_angle_type;
-            msg.sail_angle      = act.sail_angle;
-            msg.flap_active     = act.flap_active_map;
-            for (uint8_t i = 0; i < 8; i++)
-            {
-                msg.flap_angle[i] = (msg.flap_active & (1 << i)) ? act.flap_angle[i] : NAN;
-            }
-
-            mavlink_msg_wingsail_actuator_send_struct(_mavlink->get_channel(), &msg);
-
+            send_msg(act);
+            cnt++;
+        }
+        while (_wing_act_fore_sub.update(&act))
+        {
+            send_msg(act);
+            cnt++;
+        }
+        while (_wing_act_mizzen_sub.update(&act))
+        {
+            send_msg(act);
             cnt++;
         }
 
-	if (cnt > 0) return true;
+	    if (cnt > 0) return true;
         return false;
     }
 
