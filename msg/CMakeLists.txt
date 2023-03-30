@@ -191,7 +191,7 @@ set(msg_files
 	UlogStream.msg
 	UlogStreamAck.msg
 	UwbDistance.msg
-	UwbGrid.msg
+	# UwbGrid.msg
 	VehicleAcceleration.msg
 	VehicleAirData.msg
 	VehicleAngularAccelerationSetpoint.msg
@@ -224,7 +224,6 @@ set(msg_files
 	YawEstimatorStatus.msg
 	SailState.msg
 	WindData.msg
-	Nmea2kSimple.msg
 	WingsailActuator.msg
 	WingsailFeedback.msg
 	PidTune.msg

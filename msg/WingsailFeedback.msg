@@ -27,4 +27,4 @@ float32 wind_angle              # Angle of the sail to the wind (deg)
 uint8 flap_active_map           # Bitmap of active flaps
 float32[8] flap_angle           # Angle of each flap (deg)
 
-# TOPICS wingsail_feedback forewing_feedback mizzen_feedback mizzenwing_feedback
+# TOPICS wingsail_feedback forewing_feedback mizzenwing_feedback

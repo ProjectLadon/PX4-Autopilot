@@ -30,4 +30,4 @@ bool app_valid			# True if the apparent wind data is valid
 float32 raw_dir			# Raw wind direction, degrees counter-clockwise from north.
 float32 raw_speed		# Raw wind speed (m/s)
 
-# TOPICS wind_data nmea_wind wing_wind forewing_wind mizzenwing_wind mixed_wind
+# TOPICS wind_data forewing_wind mizzenwing_wind mixed_wind
