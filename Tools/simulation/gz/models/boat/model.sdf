@@ -1,0 +1,791 @@
+<?xml version='1.0'?>
+<sdf version='1.7'>
+  <model name='boat_0'>
+    <!-- The trampoline frame is the base link that everything else is attached to -->
+    <self_collide>1</self_collide>
+    <link name='base_link'>
+      <pose>0 0 0 0 -0 0</pose>
+       <inertial>
+        <pose>2.5 1.45 0.6 0 0 3.14</pose>
+        <mass>180</mass>
+        <inertia>
+          <ixx>708.33</ixx>
+          <ixy>0</ixy>
+          <iyy>1083.3</iyy>
+          <iyz>0</iyz>
+          <izz>1708.3</izz>
+        </inertia>
+      </inertial>
+      <self_collide>0</self_collide>
+      <enable_wind>1</enable_wind>
+      <kinematic>0</kinematic>
+      <gravity>1</gravity>
+      <!-- Tramp visuals -->
+      <visual name="scaled_trampoline_visual">
+      	<pose>1.776 0 0.85 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/trampoline.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="brain_box_visual">
+      	<pose>2.876 0.75 1.1 1.57 -0 -1.57</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/brain_box.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="distribution_box_visual">
+      	<pose>4.276 1.25 1.15 1.57 -0 -3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/distribution.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="power_box_visual">
+      	<pose>4.376 0.45 1.2 1.57 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/power.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="antenna_visual">
+      	<pose>4.1 0.25 1.12 1.57 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/antenna.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="left_prop_visual">
+      	<pose>4.376 1.135 0.65 1.57 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/propeller.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <visual name="right_prop_visual">
+      	<pose>4.376 1.85 0.65 1.57 -0 3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/propeller.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="base_collision">
+      	<pose>2.5 1.45 0.6 0 0 3.14</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/WAM-V-Base.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <sensor name="imu_sensor" type="imu">
+        <always_on>1</always_on>
+        <pose>2.5 1.6 0.6 0 0 3.141592654</pose>
+        <update_rate>250</update_rate>
+      </sensor>
+      <sensor name="anemometer" type="custom" gz:type="anemometer">
+        <always_on>1</always_on>
+        <update_rate>250</update_rate>
+        <topic>anemometer</topic>
+        <gz:anemometer>
+          <noise type="gaussian">
+            <mean>0.8</mean>
+            <stddev>0.3</stddev>
+          </noise>
+        </gz:anemometer>
+      </sensor>
+    </link>
+    <link name="ballast_tank">
+    	<pose>1.45 0.4 1.07 0 .05 0</pose>
+    	<inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>120</mass>
+        <inertia>
+          <ixx>1.36125</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>6.930625</iyy>
+          <iyz>0</iyz>
+          <izz>6.930625</izz>
+        </inertia>
+      </inertial>
+    	<visual name="ballast_visual">
+    		<pose>-0.55 -0.15 -0.17 1.57 0 1.57</pose>
+    		<geometry>
+    			<mesh>
+            <uri>meshes/ballast.dae</uri>
+          </mesh>
+    		</geometry>
+    	</visual>
+    	<collision name="ballast_collision">
+    		<geometry>
+    			<box>
+    				<size>1 .33 .33</size>
+    			</box>
+    		</geometry>
+    	</collision>
+    </link>
+    <joint name='ballast_joint' type='fixed'>
+      <child>ballast_tank</child>
+      <parent>base_link</parent>
+    </joint>
+    
+    <link name="port_hull">
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+      <enable_wind>1</enable_wind>
+      <gravity>1</gravity>
+      <inertial>
+        <pose>2.551 2.5 0.6 1.57 -0 0</pose>
+        <mass>40</mass>
+        <inertia>
+          <ixx>1.376</ixx>
+          <ixy>0</ixy>
+          <ixz>0.078</ixz>
+          <iyy>62.554</iyy>
+          <iyz>0</iyz>
+          <izz>63.146</izz>
+        </inertia>
+        <fluid_added_mass>
+            <xx>71.115388599</xx>
+            <yy>274.25875647</yy>
+            <zz>274.25875647</zz>
+            <qq>392.999147659</qq>
+            <rr>392.999147659</rr>
+        </fluid_added_mass>
+      </inertial>
+      <visual name='port_hull_visual'>
+        <pose>0.012 0.235 0.25 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/port.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <lighting>1</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Red</name>
+          </script>
+          <shader type='pixel'>
+            <normal_map>__default__</normal_map>
+          </shader>
+          <ambient>0.5 0 0 1</ambient>
+          <diffuse>0.5 0 0 1</diffuse>
+          <specular>0.01 0.01 0.01 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <transparency>0</transparency>
+        <cast_shadows>1</cast_shadows>
+      </visual>
+      <visual name="port_hull_cover_visual">
+      	<pose>0 0.23 0.25 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/port_cover.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+  		<collision name='port_hull_collision'>
+  			<pose>0.012 0.235 0.25 1.57 -0 0</pose>
+	      <geometry>
+	        <mesh>
+	          <uri>meshes/port.dae</uri>
+	          <scale>1 1 1</scale>
+	        </mesh>
+	      </geometry>
+	  	</collision>
+	  </link>
+	  <link name='starboard_hull'>
+	  	<inertial>
+        <pose>2.551 0.412 0.6 1.57 -0 0</pose>
+        <mass>40</mass>
+        <inertia>
+          <ixx>1.376</ixx>
+          <ixy>0</ixy>
+          <ixz>0.078</ixz>
+          <iyy>62.554</iyy>
+          <iyz>0</iyz>
+          <izz>63.146</izz>
+        </inertia>
+        <fluid_added_mass>
+            <xx>71.115388599</xx>
+            <yy>274.25875647</yy>
+            <zz>274.25875647</zz>
+            <qq>392.999147659</qq>
+            <rr>392.999147659</rr>
+        </fluid_added_mass>
+      </inertial>
+      <visual name='starboard_hull_visual'>
+        <pose>-0.002 2.473 0.3 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/starboard.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+        <material>
+          <lighting>1</lighting>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Red</name>
+          </script>
+          <shader type='pixel'>
+            <normal_map>__default__</normal_map>
+          </shader>
+          <ambient>0.5 0 0 1</ambient>
+          <diffuse>0.5 0 0 1</diffuse>
+          <specular>0.01 0.01 0.01 1</specular>
+          <emissive>0 0 0 1</emissive>
+        </material>
+        <transparency>0</transparency>
+        <cast_shadows>1</cast_shadows>
+      </visual>
+      <visual name="starboard_hull_cover_visual">
+      	<pose>0 2.45 0.28 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/starboard_cover.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+	  	<collision name='starboard_hull_collision'>
+  			<pose>-0.002 2.473 0.3 1.57 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/starboard.dae</uri>
+            <scale>1 1 1</scale>
+          </mesh>
+        </geometry>
+	  	</collision>
+	  </link>
+	  
+	  <joint name="port_hull_joint" type='fixed'>
+	  	<child>port_hull</child>
+	  	<parent>base_link</parent>
+	  </joint>
+	  <joint name="starboard_hull_joint" type='fixed'>
+	  	<child>starboard_hull</child>
+	  	<parent>base_link</parent>
+	  </joint>		
+	  
+    <link name='rudder_1'>
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.12425</iyy>
+          <iyz>0</iyz>
+          <izz>0.11475</izz>
+        </inertia>
+        <pose>0.5 0.015 0.1 0 -0 0</pose>
+      </inertial>
+      <pose>5.10241 0.426855 0 0.011924 -1.55249 -3.12692</pose>
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+      <enable_wind>1</enable_wind>
+      <visual name="rudder_1_visual">
+      	<pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/rudder.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name='rudder_1_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/rudder.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    <link name='rudder_2'>
+      <inertial>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.01</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.12425</iyy>
+          <iyz>0</iyz>
+          <izz>0.11475</izz>
+        </inertia>
+        <pose>0.5 0.015 0.1 0 -0 0</pose>
+      </inertial>
+      <pose>5.1144 2.47458 0 0.011924 -1.55249 -3.12692</pose>
+      <gravity>1</gravity>
+      <self_collide>0</self_collide>
+      <kinematic>0</kinematic>
+      <enable_wind>1</enable_wind>
+      <visual name="rudder_2_visual">
+      	<pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/rudder.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name='rudder_2_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/rudder.stl</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name='servo_0' type='revolute'>
+      <parent>base_link</parent>
+      <child>rudder_1</child>
+      <pose>0.85 0.02 0 0 -0 0</pose>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+        	<upper>0.3</upper>
+        	<lower>-0.3</lower>
+        	<effort>100</effort>
+        	<velocity>1</velocity>
+        </limit>
+      </axis>
+    </joint>
+    <joint name='servo_1' type='revolute'>
+      <parent>base_link</parent>
+      <child>rudder_2</child>
+      <pose>0.85 0.02 0 0 -0 0</pose>
+      <axis>
+        <xyz>1 0 0</xyz>
+        <limit>
+        	<upper>0.3</upper>
+        	<lower>-0.3</lower>
+        	<effort>100</effort>
+        	<velocity>1</velocity>
+        </limit>
+      </axis>
+    </joint>
+    
+    <plugin name="gz::sim::systems::SailLiftDrag"
+        filename="asv_sim2-sail-lift-drag-system">
+      <a0>0.0</a0>
+      <cla>5.160550459</cla>
+      <alpha_stall>0.296706</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda>0.63662</cda>
+      <area>6.69</area>
+      <fluid_density>1.2</fluid_density>
+      <forward>-1 0 0</forward>
+      <upward>0 0 -1</upward>
+      <cp>0 2.51 0</cp>
+      <link_name>wing_1</link_name>
+      <radial_symmetry>true</radial_symmetry>
+      <topic>lift_drag_1</topic>
+    </plugin>
+    
+    <plugin name="gz::sim::systems::SailLiftDrag"
+        filename="asv_sim2-sail-lift-drag-system">
+      <a0>0.0</a0>
+      <cla>5.160550459</cla>
+      <alpha_stall>0.296706</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda>0.63662</cda>
+      <area>6.69</area>
+      <fluid_density>1.2</fluid_density>
+      <forward>-1 0 0</forward>
+      <upward>0 0 -1</upward>
+      <cp>0 2.51 0</cp>
+      <link_name>wing_2</link_name>
+      <radial_symmetry>true</radial_symmetry>
+      <topic>lift_drag_2</topic>
+    </plugin>
+    
+    <plugin name="gz::sim::systems::SailLiftDrag"
+        filename="asv_sim2-sail-lift-drag-system">
+      <a0>0.0</a0>
+      <cla>7.448451303</cla>
+      <alpha_stall>0.244346095</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda>0.63662</cda>
+      <area>6</area>
+      <fluid_density>1.2</fluid_density>
+      <forward>-1 0 0</forward>
+      <upward>0 0 -1</upward>
+      <cp>0 2.51 0</cp>
+      <link_name>flap_1</link_name>
+      <radial_symmetry>true</radial_symmetry>
+      <topic>lift_drag_3</topic>
+    </plugin>
+    
+    <plugin name="gz::sim::systems::SailLiftDrag"
+        filename="asv_sim2-sail-lift-drag-system">
+      <a0>0.0</a0>
+      <cla>7.448451303</cla>
+      <alpha_stall>0.244346095</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda>0.63662</cda>
+      <area>6</area>
+      <fluid_density>1.2</fluid_density>
+      <forward>-1 0 0</forward>
+      <upward>0 0 -1</upward>
+      <cp>0 2.51 0</cp>
+      <link_name>flap_2</link_name>
+      <radial_symmetry>true</radial_symmetry>
+      <topic>lift_drag_4</topic>
+    </plugin>
+		
+	<plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0</a0>
+      <cla>5.730659026</cla>
+      <cda>0.1</cda>
+      <alpha_stall>0.29</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda_stall>0.3</cda_stall>
+      <cp>0.5 0.02 0.12</cp>
+      <area>0.5</area>
+      <air_density>1025</air_density>
+      <forward>0 0 -1</forward>
+      <upward>0 1 0</upward>
+      <link_name>rudder_1</link_name>
+      <control_joint_name>servo_0</control_joint_name>
+    </plugin>
+    <plugin
+      filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>servo_0</joint_name>
+      <sub_topic>servo_0</sub_topic>
+      <p_gain>100</p_gain>
+      <i_gain>0</i_gain>
+      <cmd_max>1000</cmd_max>
+      <cmd_min>-1000</cmd_min>
+    </plugin>
+    
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0</a0>
+      <cla>5.730659026</cla>
+      <cda>0.1</cda>
+      <alpha_stall>0.29</alpha_stall>
+      <cla_stall>-0.7083</cla_stall>
+      <cda_stall>0.3</cda_stall>
+      <cp>0.5 0.02 0.12</cp>
+      <area>0.5</area>
+      <air_density>1025</air_density>
+      <forward>0 0 -1</forward>
+      <upward>0 1 0</upward>
+      <link_name>rudder_2</link_name>
+      <control_joint_name>servo_1</control_joint_name>
+    </plugin>
+    <plugin
+      filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>servo_1</joint_name>
+      <sub_topic>servo_1</sub_topic>
+      <p_gain>100</p_gain>
+      <i_gain>0</i_gain>
+      <cmd_max>1000</cmd_max>
+      <cmd_min>-1000</cmd_min>
+    </plugin>
+    
+    <link name='wing_1'>
+      <pose>2.17482 2.195 0.815342 1.57 0 1.57</pose>
+      <inertial>
+        <pose>.4 3.75 0 0 -0 0</pose>
+        <mass>20</mass>
+        <inertia>
+          <ixx>46.89045</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.7065</iyy>
+          <iyz>0</iyz>
+          <izz>47.4867</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wing.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wing.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="windvane_visual">
+      	<pose>0.295 6.595 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/windvane.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    
+    <link name="flap_1">
+      <pose>2.17482 2.25 1.325 1.57 0 1.57</pose>
+      <inertial>
+        <pose>1.25 3.2 0 0 -0 0</pose>
+        <mass>20</mass>
+        <inertia>
+          <ixx>46.89045</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.7065</iyy>
+          <iyz>0</iyz>
+          <izz>47.4867</izz>
+        </inertia>
+      </inertial>
+      <visual name="flap_visual">
+      	<pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/flap.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="flap_collision">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/flap.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name='servo_4' type='revolute'>
+      <parent>wing_1</parent>
+      <child>flap_1</child>
+      <pose>0.75 3 0 0 -0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <limit>
+        	<upper>0.3</upper>
+        	<lower>-0.3</lower>
+        	<effort>10000</effort>
+        </limit>
+      </axis>
+    </joint>
+    
+    <link name='wing_2'>
+      <pose>4.205 2.195 0.815342 1.57 0 1.57</pose>
+      <inertial>
+        <pose>.4 3.75 0 0 -0 0</pose>
+        <mass>20</mass>
+        <inertia>
+          <ixx>46.89045</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.7065</iyy>
+          <iyz>0</iyz>
+          <izz>47.4867</izz>
+        </inertia>
+      </inertial>
+      <visual name="wing_visual">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wing.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="collision">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/wing.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="windvane_visual">
+      	<pose>0.295 6.595 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/windvane.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    
+    <link name="flap_2">
+      <pose>4.17482 2.25 1.325 1.57 0 1.57</pose>
+      <inertial>
+        <pose>1.25 3.2 0 0 -0 0</pose>
+        <mass>20</mass>
+        <inertia>
+          <ixx>46.89045</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.7065</iyy>
+          <iyz>0</iyz>
+          <izz>47.4867</izz>
+        </inertia>
+      </inertial>
+      <visual name="flap_visual">
+      	<pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/flap.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+      <collision name="flap_collision">
+      	<pose>0 0.5 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/flap.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+    
+    <link name="tracker_2">
+      <pose>4.213 2.50 8 1.57 0 1.57</pose>
+      <visual name="tracker_visual">
+      	<pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>.1 .1 .1</size>
+          </box>
+        </geometry>
+      </visual>
+    </link>
+    
+    <joint name="tracker_joint" type='fixed'>
+        <parent>wing_2</parent>
+        <child>tracker_2</child>
+    </joint>
+    
+    <joint name='servo_5' type='revolute'>
+      <parent>wing_2</parent>
+      <child>flap_2</child>
+      <pose>0.75 3 0 0 -0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+        <limit>
+        	<upper>0.3</upper>
+        	<lower>-0.3</lower>
+        	<effort>10000</effort>
+        </limit>
+      </axis>
+    </joint>
+    
+    <!--  ################## JOINTS ###################### -->
+    <joint name='servo_2' type='revolute'>
+      <parent>base_link</parent>
+      <child>wing_1</child>
+      <pose>0.305 0 0 0 -0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    
+    <joint name='servo_3' type='revolute'>
+      <parent>base_link</parent>
+      <child>wing_2</child>
+      <pose>0.305 0 0 0 -0 0</pose>
+      <axis>
+        <xyz>0 1 0</xyz>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    
+    <plugin
+      filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+      <joint_name>servo_2</joint_name>
+      <sub_topic>servo_2</sub_topic>
+      <use_force_commands>false</use_force_commands>
+    </plugin>
+    
+    <plugin
+      filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+      <joint_name>servo_3</joint_name>
+      <sub_topic>servo_3</sub_topic>
+      <use_force_commands>false</use_force_commands>
+    </plugin>
+    
+    <plugin
+      filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+      <joint_name>servo_4</joint_name>
+      <sub_topic>servo_4</sub_topic>
+      <use_force_commands>false</use_force_commands>
+      <!--p_gain>20</p_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+      <cmd_max>100</cmd_max>
+      <cmd_min>-100</cmd_min-->
+    </plugin>
+    
+    <plugin
+      filename="gz-sim-joint-controller-system" name="gz::sim::systems::JointController">
+      <joint_name>servo_5</joint_name>
+      <sub_topic>servo_5</sub_topic>
+      <use_force_commands>false</use_force_commands>
+      <!--p_gain>20</p_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+      <cmd_max>100</cmd_max>
+      <cmd_min>-100</cmd_min-->
+    </plugin>
+
+	<plugin
+	    filename="libgz-waves1-hydrodynamics-system.so"
+	    name="gz::sim::systems::Hydrodynamics">
+	    
+	    <enable>boat_0::base_link::base_collision</enable>
+	    <hydrodynamics>
+	      <damping_on>1</damping_on>
+	      <viscous_drag_on>1</viscous_drag_on>
+	      <pressure_drag_on>1</pressure_drag_on>
+	    
+	      <cDampL1>1.0E-6</cDampL1>
+	      <cDampL2>1.0E-6</cDampL2>
+	      <cDampR1>1.0E-6</cDampR1>
+	      <cDampR2>1.0E-6</cDampR2>
+	    
+	      <cPDrag1>1.0E+2</cPDrag1>
+	      <cPDrag2>1.0E+1</cPDrag2>
+	      <fPDrag>0.04</fPDrag>
+	      <cSDrag1>1.0E+2</cSDrag1>
+	      <cSDrag2>1.0E+2</cSDrag2>
+	      <fSDrag>0.04</fSDrag>
+	      <vRDrag>0.6</vRDrag>
+	    </hydrodynamics>
+	    <!--markers>
+            <update_rate>10</update_rate>
+            <water_patch>1</water_patch>
+            <waterline>1</waterline>
+            <underwater_surface>1</underwater_surface>
+        </markers-->
+	</plugin>
+  </model>
+</sdf>

@@ -1,0 +1,58 @@
+	<plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0</a0>
+      <cla>5.730659026</cla>
+      <cda>0</cda>
+      <cma>0.0</cma>
+      <alpha_stall>0.1396</alpha_stall>
+      <cla_stall>−9.455587393</cla_stall>
+      <cda_stall>2.285714286</cda_stall>
+      <cma_stall>0</cma_stall>
+      <cp>0.5 0.02 0.12</cp>
+      <area>6.66</area>
+      <air_density>997</air_density>
+      <forward>-1 0 0</forward>
+      <upward>0 1 0</upward>
+      <link_name>rudder_1</link_name>
+      <control_joint_name>servo_0</control_joint_name>
+    </plugin>
+    <plugin
+      filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>servo_0</joint_name>
+      <sub_topic>servo_0</sub_topic>
+      <p_gain>8</p_gain>
+      <i_gain>2</i_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+      <cmd_max>100</cmd_max>
+      <cmd_min>-100</cmd_min>
+    </plugin>
+    
+    
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0</a0>
+      <cla>5.730659026</cla>
+      <cda>0</cda>
+      <cma>0.0</cma>
+      <alpha_stall>0.1396</alpha_stall>
+      <cla_stall>−9.455587393</cla_stall>
+      <cda_stall>2.285714286</cda_stall>
+      <cma_stall>0</cma_stall>
+      <cp>0.5 0.02 0.12</cp>
+      <area>6.66</area>
+      <air_density>997</air_density>
+      <forward>-1 0 0</forward>
+      <upward>0 1 0</upward>
+      <link_name>rudder_2</link_name>
+      <control_joint_name>servo_1</control_joint_name>
+    </plugin>
+    <plugin
+      filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>servo_1</joint_name>
+      <sub_topic>servo_1</sub_topic>
+      <p_gain>8</p_gain>
+      <i_gain>2</i_gain>
+      <i_max>1</i_max>
+      <i_min>-1</i_min>
+      <cmd_max>100</cmd_max>
+      <cmd_min>-100</cmd_min>
+    </plugin>

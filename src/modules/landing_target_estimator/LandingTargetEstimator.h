@@ -55,7 +55,7 @@
 #include <uORB/topics/landing_target_pose.h>
 #include <uORB/topics/landing_target_innovations.h>
 #include <uORB/topics/uwb_distance.h>
-#include <uORB/topics/uwb_grid.h>
+//#include <uORB/topics/uwb_grid.h>
 #include <uORB/topics/estimator_sensor_bias.h>
 #include <uORB/topics/parameter_update.h>
 #include <matrix/math.hpp>
@@ -159,7 +159,7 @@ private:
 	vehicle_attitude_s		_vehicleAttitude{};
 	vehicle_acceleration_s		_vehicle_acceleration{};
 	irlock_report_s			_irlockReport{};
-	uwb_grid_s		_uwbGrid{};
+	//uwb_grid_s		_uwbGrid{};
 	uwb_distance_s		_uwbDistance{};
 
 	// keep track of which topics we have received

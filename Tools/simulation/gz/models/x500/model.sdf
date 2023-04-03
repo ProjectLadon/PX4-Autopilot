@@ -302,6 +302,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rotor_1">
@@ -374,6 +375,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rotor_2">
@@ -446,6 +448,7 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
     <link name="rotor_3">
@@ -518,9 +521,10 @@
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-   <plugin filename="gz-sim-multicopter-motor-model-system" name="gz::sim::systems::MulticopterMotorModel">
+   <plugin filename="ignition-gazebo-multicopter-motor-model-system" name="ignition::gazebo::systems::MulticopterMotorModel">
       <jointName>rotor_0_joint</jointName>
       <linkName>rotor_0</linkName>
       <turningDirection>ccw</turningDirection>

@@ -326,7 +326,7 @@ MavlinkReceiver::handle_message(mavlink_message_t *msg)
 		break;
 
 	default:
-		PX4_INFO("Received unknown message id %lu", msg->msgid);
+		PX4_INFO("Received unknown message id %u", msg->msgid);
 		break;
 	}
 

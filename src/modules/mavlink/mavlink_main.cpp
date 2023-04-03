@@ -1534,7 +1534,7 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("WIND_COV", 0.5f);
 
 		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 12/27/2022
-		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS0", 20.0);
 		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
 		configure_stream_local("WIND_DATA", 5.0);
 
@@ -1606,7 +1606,7 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("WIND_COV", 10.0f);
 
 		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 9/14/2022
-		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS0", 20.0);
 		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
 		configure_stream_local("WIND_DATA", 5.0);
 
@@ -1766,7 +1766,7 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		configure_stream_local("WIND_COV", 10.0f);
 
 		// These are here b/c I can't figure out a less obnoxious way to deal with them -- PN 10/13/2022
-		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 20.0);
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS0", 20.0);
 		configure_stream_local("WINGSAIL_ACTUATOR", 20.0);
 		configure_stream_local("WIND_DATA", 5.0);
 
@@ -1863,7 +1863,7 @@ Mavlink::configure_streams_to_default(const char *configure_single_stream)
 		break;
 
 	case MAVLINK_MODE_LADON_WINGS:
-		configure_stream_local("ACTUATOR_OUTPUT_STATUS", 5.0f);
+		configure_stream_local("ACTUATOR_OUTPUT_STATUS0", 5.0f);
 		configure_stream_local("WINGSAIL_ACTUATOR", 10.0f);
 		configure_stream_local("WIND_DATA", 5.0f);
 		configure_stream_local("SYS_STATUS", 5.0f);

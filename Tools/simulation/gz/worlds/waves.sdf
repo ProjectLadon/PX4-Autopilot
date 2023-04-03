@@ -1,0 +1,255 @@
+<?xml version="1.0" ?>
+<sdf version='1.9'>
+  <world name='waves'>
+    <physics type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    <plugin name='ignition::gazebo::systems::Physics' filename='ignition-gazebo-physics-system'/>
+    <plugin name='ignition::gazebo::systems::UserCommands' filename='ignition-gazebo-user-commands-system'/>
+    <plugin name='ignition::gazebo::systems::SceneBroadcaster' filename='ignition-gazebo-scene-broadcaster-system'/>
+    <plugin name='ignition::gazebo::systems::Imu' filename='ignition-gazebo-imu-system'/>
+    <plugin name='ignition::gazebo::systems::Sensors' filename='ignition-gazebo-sensors-system'/>
+    <plugin name='ignition::gazebo::systems::Contact' filename='ignition-gazebo-contact-system'/>
+
+    <gui fullscreen='false'>
+      <plugin name='3D View' filename='GzScene3D'>
+        <ignition-gui>
+          <title>3D View</title>
+          <property type='bool' key='showTitleBar'>0</property>
+          <property type='string' key='state'>docked</property>
+        </ignition-gui>
+        <engine>ogre2</engine>
+        <scene>scene</scene>
+        <ambient_light>0.5984631152222222 0.5984631152222222 0.5984631152222222</ambient_light>
+        <background_color>0.8984631152222222 0.8984631152222222 0.8984631152222222</background_color>
+        <camera_pose>7 0 6 0 0.5 3.14</camera_pose>
+      </plugin>
+      <plugin name='World control' filename='WorldControl'>
+        <ignition-gui>
+          <title>World control</title>
+          <property type='bool' key='showTitleBar'>0</property>
+          <property type='bool' key='resizable'>0</property>
+          <property type='double' key='height'>72</property>
+          <property type='double' key='width'>121</property>
+          <property type='double' key='z'>1</property>
+          <property type='string' key='state'>floating</property>
+          <anchors target='3D View'>
+            <line own='left' target='left'/>
+            <line own='bottom' target='bottom'/>
+          </anchors>
+        </ignition-gui>
+        <play_pause>1</play_pause>
+        <step>1</step>
+        <start_paused>1</start_paused>
+      </plugin>
+      <plugin name='World stats' filename='WorldStats'>
+        <ignition-gui>
+          <title>World stats</title>
+          <property type='bool' key='showTitleBar'>0</property>
+          <property type='bool' key='resizable'>0</property>
+          <property type='double' key='height'>110</property>
+          <property type='double' key='width'>290</property>
+          <property type='double' key='z'>1</property>
+          <property type='string' key='state'>floating</property>
+          <anchors target='3D View'>
+            <line own='right' target='right'/>
+            <line own='bottom' target='bottom'/>
+          </anchors>
+        </ignition-gui>
+        <sim_time>1</sim_time>
+        <real_time>1</real_time>
+        <real_time_factor>1</real_time_factor>
+        <iterations>1</iterations>
+      </plugin>
+      <plugin name='Entity tree' filename='EntityTree'/>
+    </gui>
+    
+    <plugin
+      filename="gz-sim-buoyancy-system"
+      name="gz::sim::systems::Buoyancy">
+      <graded_buoyancy>
+        <default_density>1000</default_density>
+        <density_change>
+          <above_depth>0</above_depth>
+          <density>1</density>
+        </density_change>
+      </graded_buoyancy>
+
+      <!-- enable by link name -->
+      <enable>boat_0::base_link</enable>
+    </plugin>
+    
+    
+
+    <scene>
+      <ambient>1.0 1.0 1.0</ambient>
+      <background>0.8 0.8 0.8</background>
+      <sky></sky>
+    </scene>
+    
+    <model name="waves">
+		  <static>true</static>
+		  <plugin
+		      filename="libgz-waves1-waves-model-system.so"
+		      name="gz::sim::systems::WavesModel">
+		    <static>0</static>
+		    <update_rate>250</update_rate>
+		    <wave>
+		      <!-- `fft` wave parameters -->
+		      <algorithm>fft</algorithm>
+		      <tile_size>64</tile_size>
+		      <cell_count>64</cell_count>
+		      <wind_speed>1.0</wind_speed>
+		      <wind_angle_deg>135</wind_angle_deg>
+		      <steepness>2</steepness>
+		    </wave>
+		  </plugin>
+
+		  <link name="base_link">
+		    <visual name="visual">
+		      <geometry>
+		        <mesh>
+		          <uri>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/mesh_L256m_N256.dae</uri>
+		        </mesh>
+		      </geometry>
+		      <!-- 
+		        Uncomment material if using DYNAMIC_GEOMETRY which uses PBS
+		        rather than a custom shader
+		      -->
+		      <material>
+		        <ambient>0.0 0.05 0.8 0.92</ambient>
+		        <diffuse>0.0 0.1 0.7 0.92</diffuse>
+		        <specular>0.7 0.7 0.7 0.92</specular>
+		        <pbr>
+		          <metal>
+		            <albedo_map>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/water.jpg</albedo_map>
+		            <normal_map>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/wave_normals.dds</normal_map>
+		            <environment_map>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/skybox_lowres.dds</environment_map>
+		            <roughness>0.3</roughness>
+		            <metalness>0.1</metalness>
+		          </metal>
+		        </pbr>
+		      </material>
+
+		      <!-- \todo remove duplicate params; populate from service instead -->
+		      <plugin
+		          filename="libgz-waves1-waves-visual-system.so"
+		          name="gz::sim::systems::WavesVisual">
+		        <static>0</static>
+		        <mesh_deformation_method>DYNAMIC_GEOMETRY</mesh_deformation_method>
+		        <tiles_x>-0 0</tiles_x>
+		        <tiles_y>-0 0</tiles_y>
+		        <wave>
+		          <!-- `fft` wave parameters -->
+		          <algorithm>fft</algorithm>
+		          <tile_size>64</tile_size>
+		          <cell_count>64</cell_count>
+		          <wind_speed>1.0</wind_speed>
+		          <wind_angle_deg>135</wind_angle_deg>
+		          <steepness>2</steepness>
+		        </wave>
+
+		        <!--
+		          The section below for shaders is ignored when using
+		          DYNAMIC_TEXTURE
+		        -->
+
+		        <!-- shader program -->
+		        <shader language="metal">
+		          <vertex>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/waves_vs.metal</vertex>
+		          <fragment>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/waves_fs.metal</fragment>
+		        </shader>
+
+		        <!-- vertex shader params -->
+		        <param>
+		          <shader>vertex</shader>
+		          <name>world_matrix</name>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>worldviewproj_matrix</name>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>camera_position</name>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>rescale</name>
+		          <value>0.5</value>
+		          <type>float</type>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>bumpScale</name>
+		          <value>128 128</value>
+		          <type>float_array</type>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>bumpSpeed</name>
+		          <value>0.01 0.01</value>
+		          <type>float_array</type>
+		        </param>
+		        <param>
+		          <shader>vertex</shader>
+		          <name>t</name>
+		          <value>TIME</value>
+		        </param>
+
+		        <!-- pixel shader params -->
+		        <param>
+		          <shader>fragment</shader>
+		          <name>deepColor</name>
+		          <value>0.0 0.05 0.2 1.0</value>
+		          <type>float_array</type>
+		        </param>
+		        <param>
+		          <shader>fragment</shader>
+		          <name>shallowColor</name>
+		          <value>0.0 0.1 0.3 1.0</value>
+		          <type>float_array</type>
+		        </param>
+		        <param>
+		          <shader>fragment</shader>
+		          <name>fresnelPower</name>
+		          <value>5.0</value>
+		          <type>float</type>
+		        </param>
+		        <param>
+		          <shader>fragment</shader>
+		          <name>hdrMultiplier</name>
+		          <value>0.4</value>
+		          <type>float</type>
+		        </param>
+		        <param>
+		          <shader>fragment</shader>
+		          <name>bumpMap</name>
+		          <value>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/wave_normals.dds</value>
+		          <type>texture</type>
+		          <arg>0</arg>
+		        </param>
+		        <param>
+		          <shader>fragment</shader>
+		          <name>cubeMap</name>
+		          <value>/home/graham/gz_ws/src/asv_wave_sim/gz-waves-models/world_models/waves/materials/skybox_lowres.dds</value>
+		          <type>texture_cube</type>
+		          <arg>1</arg>
+		        </param>
+		      </plugin>
+		    </visual>
+		  </link>
+		</model>
+		
+    
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.6 0.6 0.6 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+  </world>
+</sdf>
