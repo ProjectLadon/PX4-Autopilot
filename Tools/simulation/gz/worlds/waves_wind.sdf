@@ -75,7 +75,7 @@
     </gui>
 
     <wind>
-      <linear_velocity>0 0 0</linear_velocity>
+      <linear_velocity>3 0 0</linear_velocity>
     </wind>
 
     <scene>
@@ -228,7 +228,7 @@
 		      </plugin>
 		    </visual>
 		    
-		    <visual name="visual_map">
+		    <!--visual name="visual_map">
 	    	  <pose>-140 100 -0.75 0 0 0</pose>
 		      <geometry>
 		        <mesh>
@@ -236,7 +236,8 @@
 		        	<scale>.5 .5 .2</scale>15
 		        </mesh>
 		      </geometry>
-          	</visual>
+          	</visual-->
+          	
           	<!--collision name="visual_collision">
 	    	  <pose>-123 90 -0.75 0 0 0</pose>
 		      <geometry>
@@ -289,6 +290,20 @@
                 </material>
             </visual-->
 		  </link>
+		  <plugin
+            filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+            <joint_name>boat_0::servo_2</joint_name>
+            <joint_name>boat_0::servo_3</joint_name>
+            <sub_topic>joints</sub_topic>
+            <p_gain>1</p_gain>
+            <i_gain>0.1</i_gain>
+            <d_gain>0.01</d_gain>
+            <i_max>1</i_max>
+            <i_min>-1</i_min>
+            <cmd_max>1000</cmd_max>
+            <cmd_min>-1000</cmd_min>
+          </plugin>
 		</model>
 		
     <light type="directional" name="sun">
